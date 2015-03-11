@@ -16,7 +16,42 @@
                        countries (rest stats-words)]]
              [quantity (into #{} countries)]))}))
 
+(defn quantity-country->country-quantity [data]
+  (into {}
+        (for [[quantity countries] data
+              country countries]
+          [country quantity])
+        ))
+
+(defn hexapod-quantity-country->hexapod-country-quantity [data]
+  (into {}
+        (for [[hexapod statistics] data]
+          [hexapod (quantity-country->country-quantity statistics)])))
+
+(defn hexapod-country-quantity->country-hexapod-quantity [data countries]
+  (into {}
+        (for [country countries]
+          [country (into {}
+                         (for [[hexapod stats] data]
+                           [hexapod (get stats country "-")]))])))
+
 (comment
+  (hexapod-country-quantity->country-hexapod-quantity
+   {"Аурата сетуньская" {"Вевелония" "В огромных количествах"
+                         "Германия" "В огромных количествах"}
+    "Десятилиньята лепая" {"Индия" "В огромных количествах"
+                           "Парагвай" "В огромных количествах"}}
+   #{"Вевелония" "Германия" "Индия" "Парагвай"})
+
+  (quantity-country->country-quantity
+   {"В огромных количествах" #{"Вевелония" "Германия"}
+    "Мало" #{"Камчатка" "Россия"}})
+
+  (hexapod-quantity-country->hexapod-country-quantity
+   {"Аурата сетуньская" {"В огромных количествах" #{"Вевелония" "Германия"}
+                         "Мало" #{"Камчатка" "Россия"}}
+    "Десятилиньята лепая" {"В огромных количествах" #{"Индия" "Парагвай"}
+                           "Мало" #{"Филиппины" "Сибирь"}}})
 
   (split "semicolon: sdfsd, asdf, sdf" #"[:,]")
   (split-lines "asdf\n\nsemicolon: sdfsd, asdf, sdf")
