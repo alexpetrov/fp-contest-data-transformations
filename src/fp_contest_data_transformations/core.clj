@@ -61,8 +61,23 @@
          "\n"
          (body data hexapods)))
 
+(defn risc-of-dissapearance [data countries quantities]
+  (into {}
+        (for [[hexapod stats] data]
+          [hexapod (apply +
+                          (for [[country quantity] stats]
+                            (* (get countries country 1)
+                               (get quantities quantity 1))))])))
+
 (comment
 
+  (risc-of-dissapearance
+   {"Аурата сетуньская" {"Вевелония" "В огромных количествах"
+                         "Германия" "Мало"}
+    "Десятилиньята лепая" {"Индия" "Много"
+                           "Парагвай" "Единицы"}}
+   {"Вевелония" 2 "Германия" 3 "Индия" 4 "Парагвай" 5}
+   {"В огромных количествах" 100 "Много" 75 "Мало" 10 "Единицы" 1})
   (header #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})
   (body
    {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
