@@ -35,7 +35,24 @@
                          (for [[hexapod stats] data]
                            [hexapod (get stats country "-")]))])))
 
+(defn country-hexapod-quantity->country-diversity [data]
+  (into {}
+        (for [[country stats] data
+              :let [hexapods (remove #(= (second %) "-") stats)
+                    diversity (count (keys hexapods))]]
+          [country diversity])))
+
 (comment
+  (country-hexapod-quantity->country-diversity
+   {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
+                 "Десятилиньята лепая" "-"
+                 "Гортикола филоперьевая" "Мало"}
+    "Германия" {"Аурата сетуньская" "В огромных количествах"
+                "Десятилиньята лепая" "-"}
+    "Индия" {"Аурата сетуньская" "-"
+             "Десятилиньята лепая" "В огромных количествах"}
+    "Парагвай" {"Аурата сетуньская" "-"
+                "Десятилиньята лепая" "В огромных количествах"}})
   (hexapod-country-quantity->country-hexapod-quantity
    {"Аурата сетуньская" {"Вевелония" "В огромных количествах"
                          "Германия" "В огромных количествах"}
