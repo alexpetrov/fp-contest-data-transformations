@@ -1,6 +1,6 @@
 (ns fp-contest-data-transformations.core
   (:gen-class)
-  (:require [clojure.string :refer [split-lines split blank? trim]]
+  (:require [clojure.string :refer [split-lines split blank? trim join]]
             [clojure.pprint :refer [pprint print-table]]))
 
 
@@ -42,7 +42,42 @@
                     diversity (count (keys hexapods))]]
           [country diversity])))
 
+(defn header [hexapods]
+  (join ";" (conj (seq hexapods) "Country/Hexapod")))
+
+(defn body [data hexapods]
+  (apply str
+         (interpose "\n"
+                    (for [[country stats] data]
+                      (apply str
+                             (interpose ";"
+                                        (into [country]
+                                              (for [hexapod hexapods]
+                                                         (get stats hexapod "-")))))))))
+
+(defn hexapod-stats->csv [data hexapods]
+  (apply str
+         (header hexapods)
+         "\n"
+         (body data hexapods)))
+
 (comment
+
+  (header #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})
+  (body
+   {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
+                 "Десятилиньята лепая" "-"
+                 "Гортикола филоперьевая" "Мало"}
+    "Германия" {"Аурата сетуньская" "В огромных количествах"
+                "Десятилиньята лепая" "-"}}
+   #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})
+  (hexapod-stats->csv
+   {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
+                 "Десятилиньята лепая" "-"
+                 "Гортикола филоперьевая" "Мало"}
+    "Германия" {"Аурата сетуньская" "В огромных количествах"
+                "Десятилиньята лепая" "-"}}
+   #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})
   (country-hexapod-quantity->country-diversity
    {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
                  "Десятилиньята лепая" "-"
