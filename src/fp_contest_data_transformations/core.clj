@@ -69,7 +69,21 @@
                             (* (get countries country 1)
                                (get quantities quantity 1))))])))
 
+(defn parse-number->descr [str]
+  (let [lines (split-lines str)]
+    (into {}
+          (for [line lines
+                :let [pair (split line #" ")
+                      descr (trim (join " " (rest pair)))
+                      number (Integer/parseInt (first pair))]]
+            [descr number]))))
+
 (comment
+  (parse-number->descr
+   "100 В огромных количествах
+75  Много
+10  Мало
+1   Единицы")
 
   (risc-of-dissapearance
    {"Аурата сетуньская" {"Вевелония" "В огромных количествах"
@@ -131,7 +145,19 @@
 
   )
 
+
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (let [path "resources/"
+        frequencies-str (into {} (-> (slurp (str path "/" "Frequencies.txt")) (split #" ")))]
+    (println (str frequencies-str)))
+
+  (spit "hexapod-stats.csv" (hexapod-stats->csv
+         {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
+                       "Десятилиньята лепая" "-"
+                       "Гортикола филоперьевая" "Мало"}
+          "Германия" {"Аурата сетуньская" "В огромных количествах"
+                      "Десятилиньята лепая" "-"}}
+         #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})))
