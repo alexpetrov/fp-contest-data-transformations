@@ -8,7 +8,6 @@
   (let [lines  (split-lines desc)
         hexapod-name (first lines)
         hexapod-info (remove blank? (rest lines))]
-    [hexapod-name hexapod-info]
     {hexapod-name
      (into {}
            (for [stats hexapod-info
