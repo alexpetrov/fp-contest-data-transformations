@@ -1,7 +1,8 @@
 (ns fp-contest-data-transformations.core
   (:gen-class)
   (:require [clojure.string :refer [split-lines split blank? trim join]]
-            [clojure.pprint :refer [pprint print-table]]))
+            [clojure.pprint :refer [pprint print-table]]
+            [clojure.java.io :as io]))
 
 
 (defn parse-hexapod-description [desc]
@@ -150,14 +151,25 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (let [path "resources/"
-        frequencies-str (into {} (-> (slurp (str path "/" "Frequencies.txt")) (split #" ")))]
-    (println (str frequencies-str)))
-
-  (spit "hexapod-stats.csv" (hexapod-stats->csv
-         {"Вевелония" {"Аурата сетуньская" "В огромных количествах"
-                       "Десятилиньята лепая" "-"
-                       "Гортикола филоперьевая" "Мало"}
-          "Германия" {"Аурата сетуньская" "В огромных количествах"
-                      "Десятилиньята лепая" "-"}}
-         #{"Аурата сетуньская" "Десятилиньята лепая" "Гортикола филоперьевая"})))
+  (let [path "resources"
+        frequencies (parse-number->descr (slurp (str path "/" "Frequencies.txt")))
+        countries (parse-number->descr (slurp (str path "/" "States.txt")))
+        data-files (->> (.list (io/file path)) (filter #(.endsWith % ".dat")))
+        hexapod-quantity-country (apply merge (map #(parse-hexapod-description (slurp (str path "/" %))) data-files))
+        hexapod-country-quantity (hexapod-quantity-country->hexapod-country-quantity hexapod-quantity-country)
+        country-hexapod-quantity (hexapod-country-quantity->country-hexapod-quantity hexapod-country-quantity (keys countries))
+        csv (hexapod-stats->csv country-hexapod-quantity (keys hexapod-quantity-country))
+        diversity (country-hexapod-quantity->country-diversity country-hexapod-quantity)
+        dissapearance-risc (risc-of-dissapearance hexapod-country-quantity countries frequencies)]
+    #_(pprint frequencies)
+    #_(pprint countries)
+    #_(pprint data-files)
+    #_(pprint hexapod-quantity-country)
+    #_(pprint hexapod-country-quantity)
+    #_(pprint country-hexapod-quantity)
+    #_(println csv)
+    (println "Diversity of hexapods by countries:")
+    (pprint diversity)
+    (println "Dissapearance risks:")
+    (pprint dissapearance-risc)
+    (spit (str path "/" "hexapod-stats.csv") csv)))
