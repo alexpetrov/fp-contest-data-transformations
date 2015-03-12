@@ -1,36 +1,23 @@
-# fp-contest-data-transformations
+# Functional Programming March 2015 Contest by Roman Dushkin
 
-FIXME: description
+This program implements some data transformations on hexapods habitat statistics.
+Task description in Russian language is here in Roman's blog post: http://haskell98.blogspot.ru/2015/03/2015.html
 
-## Installation
-
-Download from http://example.com/FIXME.
+Check out tests to see basic examples of what algorithm is about.
 
 ## Usage
 
-FIXME: explanation
+To run program enter following in console:
 
-    $ java -jar fp-contest-data-transformations-0.1.0-standalone.jar [args]
+```
+./run.sh
+```
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+It will compile program to one uberjar and run it.
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Alexander Petrov (a.k.a. Lysenko by passport)
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
