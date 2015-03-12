@@ -1,4 +1,4 @@
-# Functional Programming March 2015 Contest by Roman Dushkin
+# March 2015 Functional Programming Contest by Roman Dushkin
 
 This program implements some data transformations on hexapods habitat statistics.
 Task description in Russian language is here in Roman's blog post: http://haskell98.blogspot.ru/2015/03/2015.html
