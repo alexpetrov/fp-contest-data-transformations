@@ -3,17 +3,24 @@
 This program implements some data transformations on hexapods habitat statistics.
 Task description in Russian language is here in Roman's blog post: http://haskell98.blogspot.ru/2015/03/2015.html
 
-Check out tests to see basic examples of what algorithm is about.
+Check out code in [core.clj](https://github.com/alexpetrov/fp-contest-data-transformations/blob/master/src/fp_contest_data_transformations/core.clj).
+
+Check out tests to see basic examples of what algorithm is about [core_test.clj](https://github.com/alexpetrov/fp-contest-data-transformations/blob/master/test/fp_contest_data_transformations/core_test.clj).
 
 ## Usage
 
 To run program enter following in console:
 
-```
+``` bash
 ./run.sh
 ```
-
 It will compile program to one uberjar and run it.
+
+To run tests:
+
+``` bash
+lein test
+```
 
 ## License
 

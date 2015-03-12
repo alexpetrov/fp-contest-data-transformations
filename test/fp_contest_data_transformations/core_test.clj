@@ -2,8 +2,6 @@
   (:use expectations)
   (:require [fp-contest-data-transformations.core :refer :all]))
 
-(expect 1 1)
-
 (expect {"Аурата сетуньская" {"В огромных количествах" #{"Вевелония" "Германия"}
                               "Мало" #{"Камчатка" "Россия"}
                               "Много" #{"Австралия" "Бутан"}
