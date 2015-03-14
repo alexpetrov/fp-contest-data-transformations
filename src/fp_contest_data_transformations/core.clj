@@ -40,24 +40,22 @@
                     diversity (count (keys hexapods))]]
           [country diversity])))
 
-(defn header [hexapods]
-  (join ";" (conj (seq hexapods) "Country/Hexapod")))
-
-(defn body [data hexapods]
-  (apply str
-         (interpose "\n"
-                    (for [[country stats] data]
-                      (apply str
-                             (interpose ";"
-                                        (into [country]
-                                              (for [hexapod hexapods]
-                                                         (get stats hexapod "-")))))))))
-
 (defn hexapod-stats->csv [data hexapods]
-  (apply str
-         (header hexapods)
-         "\n"
-         (body data hexapods)))
+  (letfn [(header [hexapods]
+                   (join ";" (conj (seq hexapods) "Country/Hexapod")))
+           (body [data hexapods]
+             (apply str
+                    (interpose "\n"
+                               (for [[country stats] data]
+                                 (apply str
+                                        (interpose ";"
+                                                   (into [country]
+                                                         (for [hexapod hexapods]
+                                                           (get stats hexapod "-")))))))))]
+          (apply str
+                 (header hexapods)
+                 "\n"
+                 (body data hexapods))))
 
 (defn risc-of-dissapearance [data countries quantities]
   (into {}
