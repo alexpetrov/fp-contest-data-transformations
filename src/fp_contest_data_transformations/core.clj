@@ -62,10 +62,14 @@
 (defn risc-of-dissapearance [data countries quantities]
   (into {}
         (for [[hexapod stats] data]
-          [hexapod (apply +
-                          (for [[country quantity] stats]
-                            (* (get countries country 1)
-                               (get quantities quantity 1))))])))
+          [hexapod (reduce +
+                           (for [[country quantity] stats
+                                 :when (and
+                                        (not= "-" quantity)
+                                        (get quantities quantity)
+                                        (get countries country))]
+                             (* (get countries country)
+                                (get quantities quantity))))])))
 
 (defn parse-number->descr [str]
   (let [lines (split-lines str)]
