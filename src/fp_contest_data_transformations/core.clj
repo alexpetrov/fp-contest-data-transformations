@@ -81,7 +81,7 @@
   (let [path "resources"
         frequencies (parse-number->descr (slurp (str path "/" "Frequencies.txt")))
         countries (parse-number->descr (slurp (str path "/" "States.txt")))
-        data-files (->> (.list (io/file path)) (filter #(.endsWith % ".dat")))
+        data-files (filter #(.endsWith % ".dat") (.list (io/file path)))
         hexapod-quantity-country (apply merge (map #(parse-hexapod-description (slurp (str path "/" %))) data-files))
         hexapod-country-quantity (hexapod-quantity-country->hexapod-country-quantity hexapod-quantity-country)
         country-hexapod-quantity (hexapod-country-quantity->country-hexapod-quantity hexapod-country-quantity (keys countries))
