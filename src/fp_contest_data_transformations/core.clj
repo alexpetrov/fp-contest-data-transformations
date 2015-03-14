@@ -5,14 +5,13 @@
             [clojure.java.io :as io]))
 
 (defn parse-hexapod-description [desc]
-  (let [lines  (split-lines desc)
-        hexapod-name (first lines)
-        hexapod-info (remove blank? (rest lines))]
+  (let [[hexapod-name & hexapod-info] (split-lines desc)]
     {hexapod-name
      (into {}
            (for [stats hexapod-info
                  :let [stats-words (->> (split stats #"[:,]") (remove blank?) (map trim))
-                       [quantity & countries] stats-words]]
+                       [quantity & countries] stats-words]
+                 :when (not (blank? stats))]
              [quantity (into #{} countries)]))}))
 
 (defn quantity-country->country-quantity [data]
