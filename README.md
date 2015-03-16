@@ -125,8 +125,8 @@ Country/Hexapod;Популий грыжомельский;Мелолонтий �
 
 I want to say thank you to following developers for refactoring ideas:
 
-- Alexey Pirogov
-- Dmitry Groshev
+- Alexey Pirogov [commit1](https://github.com/alexpetrov/fp-contest-data-transformations/commit/92004ad1830a548bcebf3cf1972f1f125c8cb2b1), [commit2](https://github.com/alexpetrov/fp-contest-data-transformations/commit/26b0151a1311697e6de37d0a3264a46af98c2206), [commit3](https://github.com/alexpetrov/fp-contest-data-transformations/commit/aa1ec596f0cfddadf48ac6f2b120b49737afe8d3)
+- Dmitry Groshev [commit](https://github.com/alexpetrov/fp-contest-data-transformations/commit/24041c40397dd8f95de3249bdbedb10e4b8873ea)
 
 ## License
 
