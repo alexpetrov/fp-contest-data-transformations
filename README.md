@@ -121,6 +121,13 @@ Country/Hexapod;Популий грыжомельский;Мелолонтий �
 Ливан;В огромных количествах;Немного;-;-;-;В огромных количествах
 ```
 
+## Acknowledgements
+
+I want to say thank you to following developers for refactoring ideas:
+
+- Alexey Pirogov
+- Dmitry Groshev
+
 ## License
 
 Copyright © 2015 Alexander Petrov (a.k.a. Lysenko by passport)
