@@ -9,7 +9,7 @@
     {hexapod-name
      (into {}
            (for [stats hexapod-info
-                 :let [stats-words (->> (split stats #"[:,]") (remove blank?) (map trim))
+                 :let [stats-words (->> (split stats #"[:,]") (map trim) (remove blank?))
                        [quantity & countries] stats-words]
                  :when (not (blank? stats))]
              [quantity (into #{} countries)]))}))
@@ -40,21 +40,22 @@
           [country diversity])))
 
 (defn hexapod-stats->csv [data hexapods]
-  (letfn [(header [hexapods]
-                   (join ";" (conj (seq hexapods) "Country/Hexapod")))
-           (body [data hexapods]
-             (apply str
-                    (interpose "\n"
-                               (for [[country stats] data]
-                                 (apply str
-                                        (interpose ";"
-                                                   (into [country]
-                                                         (for [hexapod hexapods]
-                                                           (get stats hexapod "-")))))))))]
+  (letfn [(header []
+            (join ";" (conj (seq hexapods) "Country/Hexapod")))
+          (row [country stats]
+            (->> (into [country]
+                       (for [hexapod hexapods]
+                         (get stats hexapod "-")))
+                 (interpose ";")
+                 (apply str)))
+          (body []
+            (interpose "\n"
+                       (for [[country stats] data]
+                         (row country stats))))]
           (apply str
-                 (header hexapods)
+                 (header)
                  "\n"
-                 (body data hexapods))))
+                 (body))))
 
 (defn risc-of-dissapearance [data countries quantities]
   (into {}
